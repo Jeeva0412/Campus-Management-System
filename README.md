@@ -1,9 +1,9 @@
-# Secure College Club Management System
+# NexusClubs (Campus Pass Ecosystem)
 
 **24CYS401 — Secure Software Engineering Integrated Project**
 
 ## Overview
-The Secure College Club Management System is a comprehensive platform designed for managing college clubs, memberships, events, and announcements. Security is treated as a primary feature, and the development process follows the complete Secure Software Engineering workflow, from Agile requirements and threat modeling to secure coding, DevSecOps containerization, and final security reviews.
+The NexusClubs (Campus Pass Ecosystem) is a comprehensive platform designed for managing college clubs, memberships, events, and announcements. Security is treated as a primary feature, and the development process follows the complete Secure Software Engineering workflow, from Agile requirements and threat modeling to secure coding, DevSecOps containerization, and final security reviews.
 
 ## Core Features
 - **Role-Based Access Control (RBAC):** Strict separation between Students, Coordinators, and Administrators.

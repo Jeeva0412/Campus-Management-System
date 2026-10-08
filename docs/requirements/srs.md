@@ -1,7 +1,7 @@
 # Phase 2: Software Requirements Specification (SRS)
 
 ## 1. Introduction
-This document specifies the requirements for the Secure College Club Management System.
+This document specifies the requirements for the NexusClubs (Campus Pass Ecosystem).
 
 ## 2. Stakeholders
 - **Student:** Primary end-user who explores clubs and attends events.
@@ -24,7 +24,7 @@ This document specifies the requirements for the Secure College Club Management 
 ### 3.2 Non-Functional Requirements (NFR)
 - **NFR-01 (Responsiveness):** The UI must be responsive and support screen sizes from 375px up to 1920px without horizontal overflow.
 - **NFR-02 (Performance):** API responses must return within 200ms under normal load.
-- **NFR-03 (Usability):** The interface must utilize a modern, professional, and youthful design language appropriate for a college platform.
+- **NFR-03 (Usability):** The interface must utilize the 'Campus Pass' design language, emphasizing physical metaphors like Ticket stubs, ID badges, and ink/paper aesthetics without relying on generic AI design tropes like glassmorphism.
 - **NFR-04 (Maintainability):** The backend must use a modular layered architecture to ease future modifications.
 
 ### 3.3 Security Requirements (SEC)

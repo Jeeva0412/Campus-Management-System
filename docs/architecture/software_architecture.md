@@ -5,7 +5,7 @@ The system utilizes a clean Layered Architecture (Modular Monolith) to enforce s
 
 ### Architectural Structure
 ```text
-[ Frontend ] (React + Vite + Tailwind CSS)
+[ Frontend ] (React + Vite + TypeScript + Tailwind CSS v4 + Framer Motion)
       ↓ (HTTPS / REST API)
 [ API Layer ] (FastAPI Controllers, Request Validation)
       ↓

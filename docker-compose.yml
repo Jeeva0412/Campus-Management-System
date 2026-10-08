@@ -1,0 +1,28 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.backend
+    ports:
+      - "8080:8000"
+    environment:
+      - DATABASE_URL=postgresql://sec_user:SuperSecurePassword123!@db:5432/college_club_db
+      - JWT_SECRET_KEY=dev_secret_key_change_in_prod
+    depends_on:
+      - db
+    security_opt:
+      - no-new-privileges:true
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=sec_user
+      - POSTGRES_PASSWORD=SuperSecurePassword123!
+      - POSTGRES_DB=college_club_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  postgres_data:

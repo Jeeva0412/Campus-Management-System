@@ -1,5 +1,8 @@
 FROM python:3.11-slim
 
+# Patch OS vulnerabilities
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 

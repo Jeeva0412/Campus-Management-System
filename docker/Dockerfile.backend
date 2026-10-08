@@ -1,10 +1,10 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
-# Patch OS vulnerabilities
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+# Patch OS vulnerabilities & add build dependencies if needed
+RUN apk update && apk upgrade && apk add --no-cache postgresql-dev gcc python3-dev musl-dev libffi-dev
 
 # Create non-root user
-RUN groupadd -r appuser && useradd -r -g appuser appuser
+RUN addgroup -S appuser && adduser -S appuser -G appuser
 
 WORKDIR /app
 

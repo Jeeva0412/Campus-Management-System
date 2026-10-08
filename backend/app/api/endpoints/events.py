@@ -119,3 +119,29 @@ def register_for_event(
     db.add(new_reg)
     db.commit()
     return {"message": "Successfully registered for event"}
+
+@router.delete("/{event_id}")
+def delete_event(
+    event_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role(["COORDINATOR", "ADMIN"]))
+):
+    event = db.query(Event).filter(Event.id == event_id).first()
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+        
+    if current_user.role == "COORDINATOR":
+        # IDOR Protection
+        is_authorized = db.query(ClubCoordinator).filter(
+            ClubCoordinator.user_id == current_user.id,
+            ClubCoordinator.club_id == event.club_id
+        ).first()
+        if not is_authorized:
+            db.add(AuditLog(user_id=current_user.id, action="UNAUTHORIZED_DELETE_ATTEMPT", resource=f"Event:{event.id}"))
+            db.commit()
+            raise HTTPException(status_code=403, detail="Not authorized to delete events for this club")
+            
+    db.delete(event)
+    db.add(AuditLog(user_id=current_user.id, action="DELETE_EVENT", resource=f"Event:{event.id}"))
+    db.commit()
+    return {"message": "Event deleted successfully"}

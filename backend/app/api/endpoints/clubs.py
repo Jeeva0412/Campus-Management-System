@@ -68,3 +68,33 @@ def get_club_members(
     members = db.query(User).join(Membership).filter(Membership.club_id == club_id).all()
     # Exclude sensitive data
     return [{"id": m.id, "full_name": m.full_name, "email": m.email} for m in members]
+
+@router.delete("/{club_id}/members/{user_id}")
+def remove_club_member(
+    club_id: int,
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role(["COORDINATOR", "ADMIN"]))
+):
+    if current_user.role == "COORDINATOR":
+        is_authorized = db.query(ClubCoordinator).filter(
+            ClubCoordinator.user_id == current_user.id,
+            ClubCoordinator.club_id == club_id
+        ).first()
+        if not is_authorized:
+            db.add(AuditLog(user_id=current_user.id, action="UNAUTHORIZED_KICK_ATTEMPT", resource=f"Club:{club_id}"))
+            db.commit()
+            raise HTTPException(status_code=403, detail="Not authorized to manage members of this club")
+            
+    membership = db.query(Membership).filter(
+        Membership.club_id == club_id,
+        Membership.user_id == user_id
+    ).first()
+    
+    if not membership:
+        raise HTTPException(status_code=404, detail="Membership not found")
+        
+    db.delete(membership)
+    db.add(AuditLog(user_id=current_user.id, action="KICK_MEMBER", resource=f"User:{user_id}_Club:{club_id}"))
+    db.commit()
+    return {"message": "Member successfully removed from club"}

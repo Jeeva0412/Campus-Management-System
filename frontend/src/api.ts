@@ -93,3 +93,46 @@ export async function fetchMe() {
   if (!res.ok) throw new Error('Failed to fetch user profile');
   return res.json();
 }
+
+export async function createEvent(clubId: number, title: string, description: string, startTime: string, capacity: number) {
+  const res = await fetch(`${API_URL}/events/`, {
+    method: 'POST',
+    headers: getHeaders(),
+    body: JSON.stringify({ club_id: clubId, title, description, start_time: startTime, capacity })
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.detail || 'Failed to create event');
+  }
+  return res.json();
+}
+
+export async function deleteEvent(eventId: number) {
+  const res = await fetch(`${API_URL}/events/${eventId}`, {
+    method: 'DELETE',
+    headers: getHeaders()
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.detail || 'Failed to delete event');
+  }
+  return res.json();
+}
+
+export async function fetchClubMembers(clubId: number) {
+  const res = await fetch(`${API_URL}/clubs/${clubId}/members`, { headers: getHeaders() });
+  if (!res.ok) throw new Error('Failed to fetch club members');
+  return res.json();
+}
+
+export async function kickClubMember(clubId: number, userId: number) {
+  const res = await fetch(`${API_URL}/clubs/${clubId}/members/${userId}`, {
+    method: 'DELETE',
+    headers: getHeaders()
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.detail || 'Failed to kick member');
+  }
+  return res.json();
+}

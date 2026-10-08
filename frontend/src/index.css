@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
-body {
-  margin: 0;
-  padding: 0;
+@theme {
+  --color-ink: #15120f;
+  --color-ink-2: #1f1b17;
+  --color-paper: #f1ebdf;
+  --color-paper-dim: #a79f91;
+  --color-signal: #ff5b2e;
+  --color-stamp: #c6ff3d;
+  --color-staff: #ffc21a;
+  --color-void: #ff3b5c;
+
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-sans: "Geist", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --animate-stamp: stamp 420ms cubic-bezier(.2,1.4,.4,1) both;
+}
+
+@keyframes stamp {
+  0%   { opacity: 0; transform: scale(2.4) rotate(-14deg); }
+  60%  { opacity: 1; transform: scale(.94) rotate(-5deg); }
+  100% { opacity: 1; transform: scale(1) rotate(-6deg); }
+}
+
+@layer base {
+  :root {
+    --theme-ink: var(--color-ink);
+    --theme-ink-2: var(--color-ink-2);
+    --theme-paper: var(--color-paper);
+    --theme-paper-dim: var(--color-paper-dim);
+  }
+  
+  :root[data-theme="light"] {
+    --theme-ink: var(--color-paper);
+    --theme-ink-2: #e0d7c5;
+    --theme-paper: var(--color-ink);
+    --theme-paper-dim: #5c5346;
+  }
+
+  body {
+    background-color: var(--theme-ink);
+    color: var(--theme-paper);
+    transition: background-color 0.2s, color 0.2s;
+  }
 }
